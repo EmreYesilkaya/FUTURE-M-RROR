@@ -1,5 +1,5 @@
 # Geleceğin Aynası (Mirror of the Future)
-##ENGLISH ON THE BOTTOM
+## ENGLISH ON THE BOTTOM
 
 Geleceğin Aynası, kullanıcıların metin girişlerini yapay zeka ile geliştirerek 20 yıl sonraki halini tahmin eden ve görselleştiren bir web uygulamasıdır.
 
