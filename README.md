@@ -28,7 +28,7 @@ Geleceğin Aynası, kullanıcıların metin girişlerini yapay zeka ile gelişti
 
 2. Repoyu klonlayın:
    ```
-   git clone https://github.com/KULLANICIADINIZ/gelecegin-aynasi.git
+   git clone https://github.com/EmreYesilkaya/FUTURE-MIRROR.git
    cd gelecegin-aynasi
    ```
 
