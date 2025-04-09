@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror of the Future</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle, #1a1a2e 0%, #121212 100%);
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 90%;
+            background-color: rgba(34, 34, 59, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin: 20px;
+            border: 1px solid rgba(86, 86, 198, 0.3);
+        }
+        
+        h1 {
+            color: #bb86fc;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(66, 66, 88, 0.5);
+            color: #e0e0e0;
+            border: 1px solid rgba(86, 86, 198, 0.5);
+            resize: none;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            background-color: #bb86fc;
+            color: #121212;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #a56bfa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(187, 134, 252, 0.3);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .record-btn {
+            background-color: #cf6679;
+        }
+        
+        .record-btn:hover {
+            background-color: #b4475f;
+            box-shadow: 0 5px 15px rgba(207, 102, 121, 0.3);
+        }
+        
+        .record-btn.recording {
+            animation: pulse 1.5s infinite;
+            background-color: #ff0033;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .output-section {
+            margin-top: 30px;
+            padding-top: 30px;
+        }
+        
+        .output-text {
+            margin-bottom: 20px;
+            background-color: rgba(66, 66, 88, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #bb86fc;
+        }
+        
+        .output-image {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .output-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+        
+        .output-image img:hover {
+            transform: scale(1.02);
+        }
+        
+        .output-image .label {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #bb86fc;
+            text-align: center;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .note {
+            font-size: 0.85rem;
+            color: #8e96a0;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .status-message {
+            color: #8e96a0;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mirror of the Future</h1>
+        
+        <div class="input-section">
+            <form method="POST" id="textForm">
+                <textarea id="inputText" name="text" placeholder="Write what you want to see in the future (e.g., 'a smartphone', 'a man from the future', 'futuristic city')...">{{ original_text }}</textarea>
+                <div class="btn-container">
+                    <button type="submit" class="btn">Show the Future</button>
+                    <button type="button" id="recordButton" class="btn record-btn">Speak to Record</button>
+                </div>
+            </form>
+            <div id="statusMessage" class="status-message">Listening to your voice...</div>
+            <div class="note">Note: First generation may take a while as AI models are downloaded. Subsequent generations will be faster.</div>
+        </div>
+        
+        {% if enhanced_text %}
+        <div class="output-section">
+            <div class="output-text">
+                <h3>In the Future:</h3>
+                <p>{{ enhanced_text }}</p>
+            </div>
+            
+            {% if image_data %}
+            <div class="output-image">
+                <img src="data:image/png;base64,{{ image_data }}" alt="Future visualization">
+                <div class="label">AI-generated image based on the description</div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <div class="footer">
+            <p>Text & Image AI Generator - 2024</p>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const recordButton = document.getElementById('recordButton');
+            const statusMessage = document.getElementById('statusMessage');
+            const inputText = document.getElementById('inputText');
+            const textForm = document.getElementById('textForm');
+            
+            let recognition;
+            let isRecording = false;
+            
+            // Check if browser supports speech recognition
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                // Initialize speech recognition
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US'; // Set language to English
+                
+                // Add event listeners for the record button
+                recordButton.addEventListener('click', toggleRecording);
+                
+                // Handle recognition results
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    inputText.value = transcript;
+                    statusMessage.style.display = 'none';
+                    isRecording = false;
+                    recordButton.classList.remove('recording');
+                    recordButton.textContent = 'Speak to Record';
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    statusMessage.textContent = 'Error: ' + event.error;
+                    statusMessage.style.display = 'block';
+                    isRecording = false;
+                    recordButton.classList.remove('recording');
+                    recordButton.textContent = 'Speak to Record';
+                };
+                
+                recognition.onend = function() {
+                    isRecording = false;
+                    recordButton.classList.remove('recording');
+                    recordButton.textContent = 'Speak to Record';
+                    statusMessage.style.display = 'none';
+                };
+            } else {
+                // Browser doesn't support speech recognition
+                recordButton.disabled = true;
+                recordButton.textContent = 'Speech Recognition Not Supported';
+                recordButton.classList.add('btn-disabled');
+            }
+            
+            function toggleRecording() {
+                if (!isRecording) {
+                    // Start recording
+                    recognition.start();
+                    isRecording = true;
+                    recordButton.classList.add('recording');
+                    recordButton.textContent = 'Listening...';
+                    statusMessage.textContent = 'Listening to your voice...';
+                    statusMessage.style.display = 'block';
+                } else {
+                    // Stop recording
+                    recognition.stop();
+                    isRecording = false;
+                    recordButton.classList.remove('recording');
+                    recordButton.textContent = 'Speak to Record';
+                    statusMessage.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
